@@ -1,8 +1,5 @@
-import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import Navigation from "@/components/navigation";
 import { useState } from "react";
 import { TYPE_SAMPLE, gradeUserString } from "@/util/string";
 
@@ -15,22 +12,6 @@ export default function Home() {
     <>
       <main className={styles.main}>
         <div>
-          <Navigation
-            locations={[
-              {
-                display: "Home",
-                pathname: "/",
-              },
-              {
-                display: "About",
-                pathname: "/about",
-              },
-              {
-                display: "Settings",
-                pathname: "/settings",
-              },
-            ]}
-          />
           <h1 className={styles.title}>Welcome to TYPEBEAST!</h1>
           <p>
             <span style={{ color: "green" }}>{correct}</span>

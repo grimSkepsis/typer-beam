@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "tests/browser/navigation.spec.mts",
+    "tests/browser/navigation.spec.ts",
     "tests/unit/grade-string.spec.ts"
   ],
   "exclude": ["node_modules"]

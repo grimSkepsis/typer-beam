@@ -1,10 +1,10 @@
-import { chromium } from "playwright";
+import { Browser, chromium } from "@playwright/test";
 import { test, expect } from "@playwright/test";
 
 const baseUrl = "http://localhost:3000";
 
 test.describe("Navigation Component", () => {
-  let browser;
+  let browser: Browser;
 
   test.beforeAll(async () => {
     browser = await chromium.launch();
@@ -27,7 +27,7 @@ test.describe("Navigation Component", () => {
     page,
   }) => {
     const menuList = await page.locator("ul");
-    expect(menuList).toBeNull();
+    expect(menuList).toHaveCount(0);
 
     await page.click(".hamburger-icon");
     await expect(page.locator("ul")).toBeVisible();
@@ -40,17 +40,19 @@ test.describe("Navigation Component", () => {
     page,
   }) => {
     await page.click(".hamburger-icon");
+    await expect(page.locator("ul")).toBeVisible();
+    const location1 = { display: "About", pathname: "/about" };
+    const location2 = { display: "Settings", pathname: "/settings" };
 
-    const location1 = { display: "Location 1", pathname: "/location1" };
-    const location2 = { display: "Location 2", pathname: "/location2" };
-
-    await page.click(`li:has-text("${location1.display}")`);
+    await page.click(`ul :has-text("${location1.display}")`);
+    await page.waitForURL(`${baseUrl}${location1.pathname}`);
     await expect(page.url()).toBe(`${baseUrl}${location1.pathname}`);
 
     await page.goBack();
     await page.click(".hamburger-icon");
 
-    await page.click(`li:has-text("${location2.display}")`);
+    await page.click(`ul :has-text("${location2.display}")`);
+    await page.waitForURL(`${baseUrl}${location2.pathname}`);
     await expect(page.url()).toBe(`${baseUrl}${location2.pathname}`);
   });
 });

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test",
-    "unit": "jest test --verbose ./test/unit"
+    "unit": "jest"
   },
   "dependencies": {
     "@types/node": "18.15.11",
