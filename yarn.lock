@@ -4860,6 +4860,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-timer-hook@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "react-timer-hook@npm:3.0.6"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 7147c690577096e375a03557d9d120fbd2fc1734892d12d2b0624afd8edf9b498c2bf2bd4f96c2f3a677da2997174fe12eb2f54329df9fb8ade4d98a6063da1b
+  languageName: node
+  linkType: hard
+
 "react@npm:18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -5631,6 +5640,7 @@ __metadata:
     next: 13.3.0
     react: 18.2.0
     react-dom: 18.2.0
+    react-timer-hook: ^3.0.6
     ts-jest: ^29.1.0
     typescript: 5.0.4
   languageName: unknown
