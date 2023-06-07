@@ -26,7 +26,7 @@ export default async function handler(
 
     const client = new ApolloClient({
       ssrMode: true,
-      link: httpLink,
+      link: authLink.concat(httpLink),
       cache: new InMemoryCache(),
     });
 
