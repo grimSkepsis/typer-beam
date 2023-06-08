@@ -5,10 +5,14 @@ import styles from "@/styles/Home.module.css";
 import testerStyles from "@/styles/TypeTester.module.css";
 type Props = {
   sampleText: string;
+  onComplete: () => void;
 };
 
 export function TypeTester({ sampleText }: Props) {
   const [text, setText] = useState("");
+  const [prevMistakeLength, setPrevMistakeLength] = useState(0);
+  const [totalKeyStrokes, setTotalKeyStrokes] = useState(0);
+  const [totalMistakes, setTotalMistakes] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const { correct, mistake, remaining } = gradeUserString(sampleText, text);
   const { seconds, minutes, hours, isRunning, start, pause, reset } =
@@ -23,6 +27,17 @@ export function TypeTester({ sampleText }: Props) {
     }
   }, [text]);
 
+  function updateStats(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Backspace") {
+      return;
+    }
+    setTotalKeyStrokes(totalKeyStrokes + 1);
+    if (mistake.length > prevMistakeLength) {
+      setTotalMistakes(totalMistakes + 1);
+    }
+    setPrevMistakeLength(mistake.length);
+  }
+
   function calcWPM() {
     if (seconds === 0 && minutes === 0 && hours === 0) return 0;
     const numWords = correct.length / 5;
@@ -30,6 +45,7 @@ export function TypeTester({ sampleText }: Props) {
     const numMinutes = hours * 60 + minutes + minutesFromSeconds;
     return Math.round(numWords / numMinutes);
   }
+
   return (
     <div>
       <h1 style={{ fontFamily: "monospace" }} className={styles.title}>
@@ -37,6 +53,15 @@ export function TypeTester({ sampleText }: Props) {
       </h1>
       <p style={{ fontFamily: "monospace" }}>
         Time Taken : {hours} : {minutes} : {seconds}
+      </p>
+      <p style={{ fontFamily: "monospace" }}>
+        Accuracy :{" "}
+        {totalKeyStrokes === 0
+          ? 100
+          : Math.round(
+              ((totalKeyStrokes - totalMistakes) / totalKeyStrokes) * 100
+            )}
+        %
       </p>
       <p style={{ fontFamily: "monospace" }}>WPM : {calcWPM()}</p>
       <p
@@ -61,6 +86,7 @@ export function TypeTester({ sampleText }: Props) {
         autoFocus
         style={{ width: "100%", height: "200px", marginTop: "1rem" }}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={updateStats}
         disabled={isComplete}
       />
     </div>
