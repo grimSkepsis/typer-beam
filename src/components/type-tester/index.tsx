@@ -5,6 +5,7 @@ import styles from "@/styles/Home.module.css";
 import testerStyles from "@/styles/TypeTester.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  resetTypeTester,
   selectTypeTesterState,
   setCurrentMistakeLength,
   setTotalKeyStrokes,
@@ -71,6 +72,11 @@ export function TypeTester({ sampleText }: Props) {
     return Math.round(numWords / numMinutes);
   }
 
+  function onReset() {
+    reset();
+    dispatch(resetTypeTester());
+  }
+
   return (
     <div>
       <h1 style={{ fontFamily: "monospace" }} className={styles.title}>
@@ -108,12 +114,16 @@ export function TypeTester({ sampleText }: Props) {
         <span>{remaining}</span>
       </p>
       <textarea
+        value={userText}
         autoFocus
         style={{ width: "100%", height: "200px", marginTop: "1rem" }}
         onChange={(e) => dispatch(setUserText(e.target.value))}
         onKeyDown={updateStats}
         disabled={isComplete}
       />
+      <button disabled={!isComplete} onClick={onReset}>
+        reset
+      </button>
     </div>
   );
 }
