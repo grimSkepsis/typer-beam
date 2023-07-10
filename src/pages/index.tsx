@@ -27,7 +27,7 @@ export default function Home() {
       <UserButton afterSignOutUrl="/" />
 
       <main className={styles.main}>
-        <TypeTester sampleText={DUNE_TYPE_SAMPLE} />
+        <TypeTester sampleText={TYPE_SAMPLE} onComplete={() => {}} />
       </main>
     </>
   );

@@ -4,7 +4,28 @@ type GradedString = {
   remaining: string;
 };
 
+/**
+ * Grades the user's string based on the sample string, returning the highlighte breakdown and accuracy score
+ * @param sampleString
+ * @param userString
+ * @returns
+ */
 export function gradeUserString(
+  sampleString: string,
+  userString: string
+): GradedString {
+  return {
+    ...highlightUserString(sampleString, userString),
+  };
+}
+
+/**
+ * Calculates the highlighted portion of the string based on the remaining, correct, and mistake portions of the string
+ * @param string
+ * @param userString
+ * @returns
+ */
+export function highlightUserString(
   string: string,
   userString: string
 ): GradedString {

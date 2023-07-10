@@ -3,39 +3,64 @@ import { useEffect, useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 import styles from "@/styles/Home.module.css";
 import testerStyles from "@/styles/TypeTester.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectTypeTesterState,
+  setCurrentMistakeLength,
+  setTotalKeyStrokes,
+  setTotalMistakes,
+  setUserText,
+} from "@/redux/typeTester/slice";
+import { completeTypeTesterSample } from "@/redux/typeTester/thunks";
 type Props = {
   sampleText: string;
   onComplete: () => void;
 };
 
 export function TypeTester({ sampleText }: Props) {
-  const [text, setText] = useState("");
-  const [prevMistakeLength, setPrevMistakeLength] = useState(0);
-  const [totalKeyStrokes, setTotalKeyStrokes] = useState(0);
-  const [totalMistakes, setTotalMistakes] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
-  const { correct, mistake, remaining } = gradeUserString(sampleText, text);
-  const { seconds, minutes, hours, isRunning, start, pause, reset } =
+  const {
+    isComplete,
+    userText,
+    totalKeyStrokes,
+    currMistakeLength,
+    totalMistakes,
+  } = useSelector(selectTypeTesterState);
+  const dispatch = useDispatch();
+  const { correct, mistake, remaining } = gradeUserString(sampleText, userText);
+  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
 
   useEffect(() => {
-    if (text === sampleText) {
+    if (userText === sampleText) {
       pause();
-      setIsComplete(true);
-    } else if (text !== sampleText && text && !isRunning && !isComplete) {
+      // Note this works but the linter just complains for some reason
+      dispatch(
+        completeTypeTesterSample({
+          wpm: calcWPM(),
+          accuracy: (totalKeyStrokes - totalMistakes) / totalKeyStrokes,
+          time: { days, hours, minutes, seconds },
+          sampleId: "test",
+        })
+      );
+    } else if (
+      userText !== sampleText &&
+      userText &&
+      !isRunning &&
+      !isComplete
+    ) {
       start();
     }
-  }, [text]);
+  }, [userText]);
 
   function updateStats(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Backspace") {
       return;
     }
-    setTotalKeyStrokes(totalKeyStrokes + 1);
-    if (mistake.length > prevMistakeLength) {
-      setTotalMistakes(totalMistakes + 1);
+    dispatch(setTotalKeyStrokes(totalKeyStrokes + 1));
+    if (mistake.length > currMistakeLength) {
+      dispatch(setTotalMistakes(totalMistakes + 1));
     }
-    setPrevMistakeLength(mistake.length);
+    dispatch(setCurrentMistakeLength(mistake.length));
   }
 
   function calcWPM() {
@@ -85,7 +110,7 @@ export function TypeTester({ sampleText }: Props) {
       <textarea
         autoFocus
         style={{ width: "100%", height: "200px", marginTop: "1rem" }}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => dispatch(setUserText(e.target.value))}
         onKeyDown={updateStats}
         disabled={isComplete}
       />
