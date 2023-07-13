@@ -18,8 +18,40 @@ async function query(
   const response = await axios.post(
     "/api/graphql",
     {
-      //   query: query.loc?.source.body,
       query: print(query),
+      variables: args,
+    },
+    {
+      headers,
+    }
+  );
+
+  const { data, errors } = response.data;
+
+  if (errors) {
+    throw new Error(errors[0].message);
+  }
+
+  return data;
+}
+
+export async function mutation(
+  query: DocumentNode,
+  args: Record<string, any>,
+  cookie?: string
+) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (cookie) {
+    headers.Cookie = cookie;
+  }
+
+  const response = await axios.post(
+    "/api/graphql",
+    {
+      mutation: print(query),
       variables: args,
     },
     {

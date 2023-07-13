@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { query, variables } = req.body;
+  const { query, mutation, variables } = req.body;
 
   try {
     const httpLink = createHttpLink({
@@ -30,16 +30,27 @@ export default async function handler(
       cache: new InMemoryCache(),
     });
 
-    const { data } = await client.query({
-      query: gql`
-        ${query}
-      `,
-      variables,
-    });
+    if (query) {
+      const { data } = await client.query({
+        query: gql`
+          ${query}
+        `,
+        variables,
+      });
+      console.log("Data:", data);
 
-    console.log("Data:", data);
-
-    res.status(200).json({ data });
+      res.status(200).json({ data });
+    } else if (mutation) {
+      console.log("Mutation:", mutation, variables);
+      // const { data } = await client.mutate({
+      //   mutation: gql`
+      //     ${mutation}
+      //   `,
+      //   variables,
+      // });
+      // console.log("Mutation Data:", data);
+      res.status(200).json({ data: variables });
+    }
   } catch (error: any) {
     console.error("Error:", error);
 

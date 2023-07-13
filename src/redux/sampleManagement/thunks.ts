@@ -10,7 +10,7 @@ export const createSample = createAsyncThunk(
       const sample = await CreateWritingSample(sampleData);
       console.log("SAMPLE RETURNED:", sample);
     } catch (e) {
-      console.log("There was an error submitting the sample.");
+      console.log("There was an error submitting the sample.", e);
     }
   }
 );
