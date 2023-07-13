@@ -5496,6 +5496,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.45.1":
+  version: 7.45.1
+  resolution: "react-hook-form@npm:7.45.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18
+  checksum: 3abe1dcf449a3d438b4e5403d93d1502f6dab05afd5c5215f0fc88a32f3d06e7f4b77bee75479359c22a418af6ea0f52711478c73773cb5fd0f43da50669aa17
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -6463,6 +6472,7 @@ __metadata:
     next-redux-wrapper: ^8.1.0
     react: 18.2.0
     react-dom: 18.2.0
+    react-hook-form: ^7.45.1
     react-redux: ^8.1.1
     react-timer-hook: ^3.0.6
     ts-jest: ^29.1.0
