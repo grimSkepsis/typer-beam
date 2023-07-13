@@ -7,7 +7,7 @@ import store from "@/redux/store";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <div style={{ height: "100%" }}>
       <ClerkProvider>
         <Provider store={store}>
           <Navigation
@@ -21,14 +21,14 @@ export default function App({ Component, pageProps }: AppProps) {
                 pathname: "/about",
               },
               {
-                display: "Settings",
-                pathname: "/settings",
+                display: "Submit Writing Sample",
+                pathname: "/submit-writing-sample",
               },
             ]}
           />
           <Component {...pageProps} />
         </Provider>
       </ClerkProvider>
-    </>
+    </div>
   );
 }
