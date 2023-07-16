@@ -1,4 +1,5 @@
 import { createSample } from "@/redux/sampleManagement/thunks";
+import { CreateWritingSample } from "@/services/samples";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -20,7 +21,8 @@ export default function SubmitWritingSample() {
 
   // Handle form submission
   function onSubmit(data: CreateWritingSampleData) {
-    dispatch(createSample({ ...data }));
+    // dispatch(createSample({ ...data }));
+    CreateWritingSample({ title: String(data.title), text: String(data.text) });
   }
 
   return (

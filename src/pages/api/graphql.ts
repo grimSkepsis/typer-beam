@@ -41,19 +41,16 @@ export default async function handler(
 
       res.status(200).json({ data });
     } else if (mutation) {
-      console.log("Mutation:", mutation, variables);
-      // const { data } = await client.mutate({
-      //   mutation: gql`
-      //     ${mutation}
-      //   `,
-      //   variables,
-      // });
-      // console.log("Mutation Data:", data);
-      res.status(200).json({ data: variables });
+      const { data } = await client.mutate({
+        mutation: gql`
+          ${mutation}
+        `,
+        variables,
+      });
+      res.status(200).json({ data });
     }
   } catch (error: any) {
-    console.error("Error:", error);
-
+    console.error("Error:", error.message);
     res.status(500).json({ error: error.message });
   }
 }

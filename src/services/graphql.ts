@@ -1,28 +1,21 @@
 import { DocumentNode, print } from "graphql";
 import gql from "graphql-tag";
 import axios from "axios";
+import { getApiRoutes } from "@/util/routes";
 
 async function query(
   query: DocumentNode,
   args: Record<string, any>,
   cookie?: string
 ) {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  if (cookie) {
-    headers.Cookie = cookie;
-  }
-
   const response = await axios.post(
-    "/api/graphql",
+    getApiRoutes().graphql,
     {
       query: print(query),
       variables: args,
     },
     {
-      headers,
+      headers: { cookie },
     }
   );
 
@@ -36,26 +29,18 @@ async function query(
 }
 
 export async function mutation(
-  query: DocumentNode,
+  mutation: DocumentNode,
   args: Record<string, any>,
   cookie?: string
 ) {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  if (cookie) {
-    headers.Cookie = cookie;
-  }
-
   const response = await axios.post(
-    "/api/graphql",
+    getApiRoutes().graphql,
     {
-      mutation: print(query),
+      mutation: print(mutation),
       variables: args,
     },
     {
-      headers,
+      headers: { cookie },
     }
   );
 
