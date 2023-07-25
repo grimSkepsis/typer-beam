@@ -11,10 +11,25 @@ export async function CreateWritingSample(
         createWritingSample(input: $input) {
           id
           title
-          text
+          content
         }
       }
     `,
     { input }
   );
+}
+
+export async function GetWritingSamples(): Promise<WritingSample[]> {
+  return mutation(
+    gql`
+      query getSamples {
+        getSamples {
+          id
+          title
+          content
+        }
+      }
+    `,
+    {}
+  ).then((res) => res.getSamples);
 }

@@ -10,13 +10,18 @@ import { useStopwatch } from "react-timer-hook";
 import { TypeTester } from "@/components/type-tester";
 import { getUser } from "@/services/graphql";
 import { UserButton } from "@clerk/nextjs";
+import { GetWritingSamples } from "@/services/samples";
+import { WritingSample } from "@/services/samples/type";
 
 export default function Home() {
+  const [samples, setSamples] = useState<WritingSample[]>([]);
+  const [targetSample, setTargeSample] = useState<WritingSample>();
   useEffect(() => {
     // Example usage:
-    getUser("123")
-      .then((user) => {
-        console.log("USER: ", user);
+    GetWritingSamples()
+      .then((samples) => {
+        console.log("SAMPLES: ", samples);
+        setSamples(samples);
       })
       .catch((error) => {
         console.error(error);
@@ -26,8 +31,27 @@ export default function Home() {
     <>
       <UserButton afterSignOutUrl="/" />
 
+      <select
+        onChange={(e) => {
+          const sampleId = e.target.value;
+          const sample = samples.find((s) => s.id === sampleId);
+          setTargeSample(sample);
+        }}
+      >
+        {samples.map((sample) => {
+          return (
+            <option key={sample.id} value={sample.id}>
+              {sample.title}
+            </option>
+          );
+        })}
+      </select>
+
       <main className={styles.main}>
-        <TypeTester sampleText={TYPE_SAMPLE} onComplete={() => {}} />
+        <TypeTester
+          sampleText={targetSample ? targetSample.content : TYPE_SAMPLE}
+          onComplete={() => {}}
+        />
       </main>
     </>
   );

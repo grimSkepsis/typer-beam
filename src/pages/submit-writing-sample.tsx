@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 // Define the data type for the form
 type CreateWritingSampleData = {
   title?: string;
-  text?: string;
+  content?: string;
 };
 
 export default function SubmitWritingSample() {
@@ -22,7 +22,10 @@ export default function SubmitWritingSample() {
   // Handle form submission
   function onSubmit(data: CreateWritingSampleData) {
     // dispatch(createSample({ ...data }));
-    CreateWritingSample({ title: String(data.title), text: String(data.text) });
+    CreateWritingSample({
+      title: String(data.title),
+      content: String(data.content),
+    });
   }
 
   return (
@@ -63,7 +66,7 @@ export default function SubmitWritingSample() {
         >
           <label>Text:</label>
           <textarea
-            {...register("text", { required: true })}
+            {...register("content", { required: true })}
             style={{ width: "20rem" }}
             rows={10}
           />

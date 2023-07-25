@@ -1,10 +1,10 @@
 export type CreateWritingSampleInput = {
   title: string;
-  text: string;
+  content: string;
 };
 
 export type WritingSample = {
   id: string;
   title: string;
-  text: string;
+  content: string;
 };
