@@ -1,14 +1,7 @@
 import styles from "@/styles/Home.module.css";
 import { useEffect, useState } from "react";
-import {
-  DUNE_TYPE_SAMPLE,
-  LARGE_TYPE_SAMPLE,
-  TYPE_SAMPLE,
-  gradeUserString,
-} from "@/util/string";
-import { useStopwatch } from "react-timer-hook";
+import { TYPE_SAMPLE } from "@/util/string";
 import { TypeTester } from "@/components/type-tester";
-import { getUser } from "@/services/graphql";
 import { UserButton } from "@clerk/nextjs";
 import { GetWritingSamples } from "@/services/samples";
 import { WritingSample } from "@/services/samples/type";
@@ -26,7 +19,7 @@ export default function Home() {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
   return (
     <>
       <UserButton afterSignOutUrl="/" />

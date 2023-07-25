@@ -13,6 +13,12 @@ export type TimeBreakdown = {
   hours: number;
   days: number;
 };
+export function timeBreakdownToMilliseconds(time: TimeBreakdown): number {
+  const { minutes, seconds, hours, days } = time;
+  const totalSeconds =
+    seconds + minutes * 60 + hours * 60 * 60 + days * 24 * 60 * 60;
+  return totalSeconds * 1000;
+}
 
 export type CompletionState = {
   wpm: number;

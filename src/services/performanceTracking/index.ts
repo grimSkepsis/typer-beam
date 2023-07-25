@@ -1,5 +1,16 @@
+import gql from "graphql-tag";
+import { mutation } from "../graphql";
 import { PerformanceInput } from "./type";
 
-export async function SubmitPerformance(input: PerformanceInput) {
-  console.log("SubmitPerformance:", input);
+export function RecordUserPerformance(
+  input: PerformanceInput
+): Promise<boolean> {
+  return mutation(
+    gql`
+      mutation RecordUserPerformance($input: PerformanceInput!) {
+        recordUserPerformance(input: $input)
+      }
+    `,
+    { input }
+  ).then((res) => res.recordUserPerformance);
 }
