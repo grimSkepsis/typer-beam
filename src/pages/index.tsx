@@ -43,6 +43,7 @@ export default function Home() {
       <main className={styles.main}>
         <TypeTester
           sampleText={targetSample ? targetSample.content : TYPE_SAMPLE}
+          sampleId={targetSample ? targetSample.id : "test"}
           onComplete={() => {}}
         />
       </main>

@@ -15,10 +15,11 @@ import {
 import { completeTypeTesterSample } from "@/redux/typeTester/thunks";
 type Props = {
   sampleText: string;
+  sampleId: string;
   onComplete: () => void;
 };
 
-export function TypeTester({ sampleText }: Props) {
+export function TypeTester({ sampleText, sampleId }: Props) {
   const {
     isComplete,
     userText,
@@ -40,7 +41,7 @@ export function TypeTester({ sampleText }: Props) {
           wpm: calcWPM(),
           accuracy: (totalKeyStrokes - totalMistakes) / totalKeyStrokes,
           time: { days, hours, minutes, seconds },
-          sampleId: "test",
+          sampleId: sampleId,
         })
       );
     } else if (
