@@ -1,14 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CompletionState, timeBreakdownToMilliseconds } from "./types";
+import { CompletionState } from "./types";
 import { RecordUserPerformance } from "@/services/performanceTracking";
 
 export const completeTypeTesterSample = createAsyncThunk(
   "typeTester/complete",
-  async ({ time, ...rest }: CompletionState, thunkAPI) => {
+  async (data: CompletionState, thunkAPI) => {
     const { dispatch, getState } = thunkAPI;
-    return RecordUserPerformance({
-      ...rest,
-      timeToComplete: timeBreakdownToMilliseconds(time),
-    });
+    return RecordUserPerformance(data);
   }
 );

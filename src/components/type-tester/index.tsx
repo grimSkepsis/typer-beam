@@ -13,6 +13,7 @@ import {
   setUserText,
 } from "@/redux/typeTester/slice";
 import { completeTypeTesterSample } from "@/redux/typeTester/thunks";
+import { useTimer } from "@/hooks/timer";
 type Props = {
   sampleText: string;
   sampleId: string;
@@ -29,18 +30,25 @@ export function TypeTester({ sampleText, sampleId }: Props) {
   } = useSelector(selectTypeTesterState);
   const dispatch = useDispatch();
   const { correct, mistake, remaining } = gradeUserString(sampleText, userText);
-  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
-    useStopwatch({ autoStart: false });
+  // const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
+  //   useStopwatch({ autoStart: false });
+  const {
+    toggleTimer,
+    totalTime,
+    resetTimer,
+    isRunning,
+    time: { hours, seconds, minutes },
+  } = useTimer();
 
   useEffect(() => {
     if (userText === sampleText) {
-      pause();
+      toggleTimer();
       // Note this works but the linter just complains for some reason
       dispatch(
         completeTypeTesterSample({
           wpm: calcWPM(),
           accuracy: (totalKeyStrokes - totalMistakes) / totalKeyStrokes,
-          time: { days, hours, minutes, seconds },
+          timeToComplete: totalTime,
           sampleId: sampleId,
         })
       );
@@ -50,7 +58,7 @@ export function TypeTester({ sampleText, sampleId }: Props) {
       !isRunning &&
       !isComplete
     ) {
-      start();
+      toggleTimer();
     }
   }, [userText]);
 
@@ -74,7 +82,8 @@ export function TypeTester({ sampleText, sampleId }: Props) {
   }
 
   function onReset() {
-    reset();
+    resetTimer();
+    toggleTimer();
     dispatch(resetTypeTester());
   }
 

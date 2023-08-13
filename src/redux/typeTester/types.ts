@@ -23,6 +23,6 @@ export function timeBreakdownToMilliseconds(time: TimeBreakdown): number {
 export type CompletionState = {
   wpm: number;
   accuracy: number;
-  time: TimeBreakdown;
+  timeToComplete: number;
   sampleId: string;
 };
